@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191036422460",
+    "project_id": "reservaya-c40ab",
+    "storage_bucket": "reservaya-c40ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191036422460:android:7ac6c89b603ce17a8e4639",
+        "android_client_info": {
+          "package_name": "com.example.reserva_ya"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5GoxE4ELOFKTKbHfyb2SyBGHGaKe48Fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
