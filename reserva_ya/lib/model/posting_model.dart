@@ -1,3 +1,6 @@
+import "package:get/get.dart";
+import "package:reserva_ya/global.dart";
+import "package:reserva_ya/model/app_constants.dart";
 import "package:reserva_ya/model/booking_model.dart";
 import "package:reserva_ya/model/contact_model.dart";
 import "package:reserva_ya/model/review_model.dart";
@@ -39,7 +42,6 @@ class PostingModel {
 
     bookings = [];
     reviews = [];
-
 
   }
 
@@ -216,11 +218,32 @@ class PostingModel {
 
     });
     return dates;
+  }
 
+  Future<void> makeNewBooking(List<DateTime> dates, context, hostID) async{
+    
+    Map<String, dynamic> bookingData = {
+      'dates': dates,
+      'name': AppConstants.currentUser.GetFullNameOfUser(),
+      'userID': AppConstants.currentUser.id,
+      'payment': bookingPrice,
+    };
+    DocumentReference reference = await FirebaseFirestore.instance.collection('postings')
+      .doc(id).collection('bookings').add(bookingData);
+
+    BookingModel newBooking = BookingModel();
+    //aqui
+    newBooking.createBooking(this, dates);
+    newBooking.id = reference.id;
+
+    bookings!.add(newBooking);
+    //aqui
+    await AppConstants.currentUser.addBookingToFirestore(newBooking, bookingPrice!, hostID);
+
+    //Get.snackbar("Guardando", "Reservado con exito.");
   }
 
   
-
 
 
 }

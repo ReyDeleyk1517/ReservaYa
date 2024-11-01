@@ -166,6 +166,7 @@ class _CreatePostingScreenState extends State<CreatePostingScreen> {
               postingModel.beds = _beds;
               postingModel.bathrooms = _bathrooms;
               postingModel.displayImages = _imagesList;
+              //postingModel.host = AppConstants.currentUser.CreateUserFromContact();
 
               postingModel.rating = 3.5;
               postingModel.bookings = [];

@@ -5,3 +5,6 @@ import 'package:reserva_ya/model/posting_model.dart';
 PostingModel postingModel = PostingModel();
 UserViewModel userViewModel = UserViewModel();
 PostingViewModel postingViewModel = PostingViewModel();
+
+String paymentResult = "";
+double? bookingPrice = 0;

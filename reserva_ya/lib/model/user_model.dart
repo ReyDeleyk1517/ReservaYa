@@ -93,6 +93,7 @@ class UserModel extends ContactModel{
           PostingModel posting = PostingModel(id: postingID);
           await posting.getPostingInfoFromFirestore(); // Recupera la info desde Firestore
           await posting.getAllImagesFromStorage();
+          await posting.getAllBookingsFromFirestore();
           myPostings!.add(posting);
     }
   }
@@ -133,6 +134,50 @@ class UserModel extends ContactModel{
       'savedPostingIDs' : savedPostingIDs,
     });
     Get.snackbar("Eliminar favorito", "eliminado de la lista de favoritos");
+  }
+
+  //aqui no me guarda la informacion
+  Future<void> addBookingToFirestore(BookingModel booking, double totalPriceForAllNights, String hostID) async {
+      try {
+          
+          
+          Map<String, dynamic> data = {
+              'dates': booking.dates,
+              'postingID': booking.posting!.id
+          };
+          
+          await FirebaseFirestore.instance.doc('users/$id/bookings/${booking.id}').set(data);
+
+          //actualizar ganancias totales
+          String earningsOld = "";
+          await FirebaseFirestore.instance.collection("users").doc(hostID).get().then((dataSnap){
+            earningsOld = dataSnap["earnings"].toString();
+          });
+          
+
+          await FirebaseFirestore.instance.collection("users").doc(hostID).update({
+              "earnings": totalPriceForAllNights + double.parse(earningsOld),
+          });
+          
+          bookings!.add(booking);
+      } catch (e) {
+          print("Error al guardar la reserva: $e");
+      }
+  }
+
+  addBookingConversation(){
+    
+  }
+
+  List<DateTime> getAllBookedDates(){
+    List<DateTime> allBookedDates = [];
+
+    myPostings!.forEach((posting){
+      posting.bookings!.forEach((booking){
+        allBookedDates.addAll(booking.dates!);
+      });
+    });
+    return allBookedDates;
   }
 
 

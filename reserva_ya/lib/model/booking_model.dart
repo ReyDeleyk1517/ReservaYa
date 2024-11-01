@@ -33,6 +33,12 @@ class BookingModel {
     lastName = fullName.split(" ")[0];
 
     contact = ContactModel(id: id, nombre: firstName, apellido: lastName);
+  }
 
+  createBooking(PostingModel postingM, List<DateTime> datesM){
+    posting= postingM;
+    
+    dates = datesM;
+    dates!.sort();
   }
 }

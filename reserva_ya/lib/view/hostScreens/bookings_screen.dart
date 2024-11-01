@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:reserva_ya/model/app_constants.dart';
+import 'package:reserva_ya/model/posting_model.dart';
+import 'package:reserva_ya/view/widgets/calender_ui.dart';
+import 'package:reserva_ya/view/widgets/posting_grid_tile_ui.dart';
+import 'package:reserva_ya/view/widgets/posting_list_tile.dart';
+import 'package:reserva_ya/view/widgets/posting_listing_ui.dart';
 
 class BookingsScreen extends StatefulWidget {
   const BookingsScreen({super.key});
@@ -8,10 +14,149 @@ class BookingsScreen extends StatefulWidget {
 }
 
 class _BookingsScreenState extends State<BookingsScreen> {
+
+  List<DateTime> _bookedDates = [];
+  List<DateTime> _allBookedDates = [];
+  PostingModel? _selectedPosting;
+
+  List<DateTime> _getSelectedDates(){
+    return [];
+  }
+
+  _selectDate(DateTime date){
+
+  }
+
+  _selectAPosting(PostingModel posting){
+    _selectedPosting = posting;
+    _bookedDates = posting!.getAllBookedDates();
+    setState(() {
+      
+    });
+  }
+
+  _clearSelectedPosting(){
+    _bookedDates = _allBookedDates;
+    _selectedPosting = null;
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _bookedDates = AppConstants.currentUser.getAllBookedDates();
+    _allBookedDates = AppConstants.currentUser.getAllBookedDates();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(25, 25, 25, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text('Dom'),
+                  Text('Lun'),
+                  Text('Mar'),
+                  Text('Mie'),
+                  Text('Jue'),
+                  Text('Vie'),
+                  Text('Sab'),
+                ],
+              ),
       
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 35),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.8,
+                  child: PageView.builder(
+                    itemCount: 12,
+                    itemBuilder: (context, index){
+                      return CalenderUI(
+                        monthIndex: index,
+                        bookedDates: _bookedDates,
+                        selectDate: _selectDate,
+                        getSelectedDates: _getSelectedDates,
+                      );
+                    },
+                  ),
+                ),
+              ),
+      
+              //resetear
+              Padding(
+                padding: EdgeInsets.fromLTRB(25, 25, 0, 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Filtrar por publicacion',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+      
+                    MaterialButton(
+                      onPressed: (){
+                        _clearSelectedPosting();
+                      },
+                      child: const Text(
+                        'Borrar',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    
+                    Padding(
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
+                      child: Container(),
+                    ),
+                  ],
+                ),
+              ),
+      
+              
+              //mostrar publicaciones
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: AppConstants.currentUser.myPostings!.length,
+                itemBuilder: (context, index){
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 26),
+                    child: InkResponse(
+                      onTap: (){
+                        _selectAPosting(AppConstants.currentUser.myPostings![index]);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: _selectedPosting == AppConstants.currentUser.myPostings![index] ? Colors.blue : Colors.grey,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(6.0)
+                        ),
+                        child: PostingListTileUI(
+                          posting: AppConstants.currentUser.myPostings![index],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
