@@ -244,7 +244,7 @@ class _ViewPostingScreenState extends State<ViewPostingScreen> {
 
                 // Lugar
                 const Text(
-                  'lugar',
+                  'Lugar',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
                 Padding(

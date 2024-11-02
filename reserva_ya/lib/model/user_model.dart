@@ -1,5 +1,7 @@
 import 'package:reserva_ya/model/Contact_Model.dart';
+import 'package:reserva_ya/model/app_constants.dart';
 import 'package:reserva_ya/model/booking_model.dart';
+import 'package:reserva_ya/model/conversation_model.dart';
 import 'package:reserva_ya/model/posting_model.dart';
 import 'package:reserva_ya/model/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,6 +59,16 @@ class UserModel extends ContactModel{
     };
 
     await FirebaseFirestore.instance.collection("users").doc(id).set(datamap);
+
+  }
+
+  createContactFromUser(){
+    return ContactModel(
+      id: id,
+      nombre: nombre,
+      apellido: apellido,
+      displayImage: displayImage
+    );
 
   }
 
@@ -139,8 +151,7 @@ class UserModel extends ContactModel{
   //aqui no me guarda la informacion
   Future<void> addBookingToFirestore(BookingModel booking, double totalPriceForAllNights, String hostID) async {
       try {
-          
-          
+
           Map<String, dynamic> data = {
               'dates': booking.dates,
               'postingID': booking.posting!.id
@@ -160,13 +171,19 @@ class UserModel extends ContactModel{
           });
           
           bookings!.add(booking);
+          await addBookingConversation(booking, hostID);
       } catch (e) {
           print("Error al guardar la reserva: $e");
       }
   }
 
-  addBookingConversation(){
-    
+  addBookingConversation(BookingModel booking, String hostID) async {
+    ConversationModel conversation = ConversationModel();
+    conversation.addConversationToFirestore(booking.posting!.host!, hostID);
+    String textMessage = "Hola mi nombre es ${AppConstants.currentUser!.nombre}"
+    "y reserve ${booking.posting!.name}"
+    "desde ${booking.dates!.first} hasta ${booking.dates!.last}";
+    await conversation.addMessageToFirestore(textMessage);
   }
 
   List<DateTime> getAllBookedDates(){
