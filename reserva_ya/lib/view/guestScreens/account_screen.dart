@@ -1,4 +1,5 @@
 import 'package:reserva_ya/model/app_constants.dart';
+import 'package:reserva_ya/view/finances_home_screen.dart';
 import 'package:reserva_ya/view/guest_home_screen.dart';
 import 'package:reserva_ya/view/host_home_screen.dart';
 import 'package:reserva_ya/view_model/user_view_model.dart';
@@ -30,6 +31,11 @@ class _AccountScreenState extends State<AccountScreen> {
       AppConstants.currentUser.isCurrentlyHosting = true;
       Get.to(HostHomeScreen(index: 1));
     }
+  }
+
+  getToFinanceScreen() async {
+    //error parameter index is not defined
+    Get.to(FinancesHomeScreen());
   }
 
   @override
@@ -101,7 +107,7 @@ class _AccountScreenState extends State<AccountScreen> {
             const SizedBox(height: 10),
             _buildButton(_hostingTitle, Icons.hotel_outlined, modifyHostingMode),
             const SizedBox(height: 10),
-            _buildButton("Asistente de finanzas", Icons.currency_exchange, () {}),
+            _buildButton("Asistente de finanzas", Icons.currency_exchange, getToFinanceScreen),
             const SizedBox(height: 10),
             _buildButton("Cerrar sesion", Icons.login_outlined, () {}),
           ],
