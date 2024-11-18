@@ -20,7 +20,7 @@ class _GuestHomeScreenState extends State<GuestHomeScreen>{
   final List<String> stringTitles = [
     'Explorar',
     'Guardar',
-    'Viajes',
+    'Rutas',
     'Inbox',
     'Perfil',
   ];
@@ -56,8 +56,8 @@ class _GuestHomeScreenState extends State<GuestHomeScreen>{
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.pinkAccent,
-                Colors.amber,
+                Colors.blueAccent,
+                Colors.lightBlueAccent,
               ],
               begin: FractionalOffset(0, 0),
               end: FractionalOffset(1, 0),
@@ -88,7 +88,7 @@ class _GuestHomeScreenState extends State<GuestHomeScreen>{
         items: <BottomNavigationBarItem>[
           customNavigationBarItem(0, Icons.search, stringTitles[0]),
           customNavigationBarItem(1, Icons.favorite_outline, stringTitles[1]),
-          customNavigationBarItem(2, Icons.hotel, stringTitles[2]),
+          customNavigationBarItem(2, Icons.train, stringTitles[2]),
           customNavigationBarItem(3, Icons.message, stringTitles[3]),
           customNavigationBarItem(4, Icons.person_outline, stringTitles[4]),
         ],

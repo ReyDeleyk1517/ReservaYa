@@ -62,8 +62,8 @@ class _HostHomeScreenState extends State<HostHomeScreen>{
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.pinkAccent,
-                Colors.amber,
+                Colors.blueAccent,
+                Colors.lightBlueAccent,
               ],
               begin: FractionalOffset(0, 0),
               end: FractionalOffset(1, 0),

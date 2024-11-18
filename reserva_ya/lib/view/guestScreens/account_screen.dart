@@ -1,6 +1,7 @@
 import 'package:reserva_ya/model/app_constants.dart';
 import 'package:reserva_ya/view/finances_home_screen.dart';
 import 'package:reserva_ya/view/guest_home_screen.dart';
+import 'package:reserva_ya/view/homework_home_screen.dart';
 import 'package:reserva_ya/view/host_home_screen.dart';
 import 'package:reserva_ya/view_model/user_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,6 +37,11 @@ class _AccountScreenState extends State<AccountScreen> {
   getToFinanceScreen() async {
     //error parameter index is not defined
     Get.to(FinancesHomeScreen());
+  }
+
+  getToHomeworkScreen() async {
+    //error parameter index is not defined
+    Get.to(HomeworkHomeScreen());
   }
 
   @override
@@ -109,6 +115,8 @@ class _AccountScreenState extends State<AccountScreen> {
             const SizedBox(height: 10),
             _buildButton("Asistente de finanzas", Icons.currency_exchange, getToFinanceScreen),
             const SizedBox(height: 10),
+            _buildButton("Agenda de tareas", Icons.book, getToHomeworkScreen),
+            const SizedBox(height: 10),
             _buildButton("Cerrar sesion", Icons.login_outlined, () {}),
           ],
         ),
@@ -121,7 +129,10 @@ class _AccountScreenState extends State<AccountScreen> {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.pinkAccent, Colors.amber],
+          colors: [
+            Colors.blueAccent,
+            Colors.lightBlueAccent,
+          ],
           begin: FractionalOffset(0, 0),
           end: FractionalOffset(1, 0),
           stops: [0, 1],
